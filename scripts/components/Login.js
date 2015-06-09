@@ -24,7 +24,7 @@ var LoginComponent = React.createClass( {
     },
 
     render: function() {
-        return <div><form onSubmit={this.onSubmit}><input type='text' placeholder='Username' onChange={this.handleUsernameChange} value={this.state.username} /><input type='password' placeholder='Password' onChange={this.handlePasswordChange} value={this.state.password} /><button type='submit'>Submit</button></form></div>;
+        return <div><form onSubmit={this.onSubmit}><input type='text' name='username' placeholder='Username' onChange={this.handleUsernameChange} value={this.state.username} /><input type='password' name='password' placeholder='Password' onChange={this.handlePasswordChange} value={this.state.password} /><button type='submit'>Submit</button></form></div>;
     }
 } );
 

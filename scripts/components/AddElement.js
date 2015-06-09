@@ -1,6 +1,6 @@
 var React = require( "react" );
 
-var ElementComponent = React.createClass( {
+var AddElementComponent = React.createClass( {
     componentDidMount: function() {
         var comp = this;
 
@@ -98,8 +98,8 @@ var ElementComponent = React.createClass( {
     },
 
     render: function() {
-        return <tr key={this.props.element.get( 'element_id' )}><td>{this.props.element.get( 'element_id' )}</td><td>{this.props.element.get( 'name' )}</td><td>{this.props.element.get( 'design_id' )}</td><td><input type="number" ref="quantityInput" value={this.props.element.get( 'quantity' )} onChange={this.onQuantityChange} min="1" /></td><td><input type="number" ref="availableInput" value={this.props.element.get( 'available' )} min="0" max={this.props.element.get( 'quantity' )} onChange={this.onAvailableChange} /></td><td><input type="number" ref="usedInput" value={this.props.element.get( 'used' )} min="0" max={this.props.element.get( 'quantity' )} onChange={this.onUsedChange} /></td><td><a href={this.props.element.get( 'brickset_link' )} target="_blank">Link</a></td></tr>;
+        return <tr key={this.props.element.get( 'element_id' )}><td><select><option value="">Please Select</option><option value="1">1</option></select></td><td><select><option value="">Please Select</option><option value="1">1</option></select></td><td>{this.props.element.get( 'design_id' )}</td><td><input type="number" ref="quantityInput" value={this.props.element.get( 'quantity' )} onChange={this.onQuantityChange} min="1" /></td><td><input type="number" ref="availableInput" value={this.props.element.get( 'available' )} min="0" max={this.props.element.get( 'quantity' )} onChange={this.onAvailableChange} /></td><td><input type="number" ref="usedInput" value={this.props.element.get( 'used' )} min="0" max={this.props.element.get( 'quantity' )} onChange={this.onUsedChange} /></td><td>{this.props.element.get( 'element_id' ) ? <a href={this.props.element.get( 'brickset_link' )} target="_blank">Link</a> : null}</td></tr>;
     }
 } );
 
-module.exports = ElementComponent;
+module.exports = AddElementComponent;

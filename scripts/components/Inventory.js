@@ -1,6 +1,8 @@
 var React = require( 'react' );
+var Backbone = require( 'backbone' );
 var SearchComponent = require( './Search' );
 var ElementComponent= require( './Element' );
+var AddElementComponent= require( './AddElement' );
 
 var InventoryComponent = React.createClass( {
     getInitialState: function() {
@@ -30,6 +32,16 @@ var InventoryComponent = React.createClass( {
         });
     },
 
+    addElement: function() {
+        this.setState({
+            add: new Backbone.Model({
+                quantity: 0,
+                available: 0,
+                used: 0
+            })
+        });
+    },
+
     render: function() {
         var state = this.state;
 
@@ -37,6 +49,7 @@ var InventoryComponent = React.createClass( {
             <div>
                 <h1>Your Inventory</h1>
                 <SearchComponent filterText={this.state.filterText} onUserInput={this.handleUserInput} />
+                <div><button onClick={this.addElement}>+ Add Lego Element</button></div>
                 <table>
                     <thead>
                         <tr>
@@ -50,10 +63,13 @@ var InventoryComponent = React.createClass( {
                         </tr>
                     </thead>
                     <tbody>
+                        {this.state.add ? <AddElementComponent element={this.state.add} /> : null }
                         {this.props.elements.map(function( element ) {
+                            var idReg = new RegExp( "^" + state.filterText, 'gi' );
+                            var textReg = new RegExp( state.filterText, 'gi' );
                             if ( state.filterText === '' ) {
                                 return <ElementComponent element={element} />
-                            } else if ( state.filterText !== '' && element.get( 'element_id' ) == state.filterText ) {
+                            } else if ( idReg.test( element.get( 'element_id' ) ) || textReg.test( element.get( 'name' ) ) || idReg.test( element.get( 'design_id' ) ) ) {
                                 return <ElementComponent element={element} />
                             }
                         })}

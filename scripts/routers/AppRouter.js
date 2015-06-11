@@ -43,9 +43,16 @@ var AppRouter = Backbone.Router.extend( {
     },
 
     inventory: function() {
+        ElementsStore.fetch({
+            success: function( coll ) {
+                coll.each(function( model ) {
+                    model.fetch();
+                });
+            }
+        });
         React.unmountComponentAtNode( document.getElementById( 'app' ) );
         React.render(
-            <InventoryComponent elements={ElementsStore} />,
+            <InventoryComponent collection={ElementsStore} />,
             document.getElementById( 'app' )
         );
     }

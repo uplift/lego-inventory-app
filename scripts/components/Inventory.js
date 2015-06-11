@@ -3,27 +3,15 @@ var Backbone = require( 'backbone' );
 var SearchComponent = require( './Search' );
 var ElementComponent= require( './Element' );
 var AddElementComponent= require( './AddElement' );
+var BackboneMixin = require( './mixins/BackboneMixin' );
 
 var InventoryComponent = React.createClass( {
+    mixins: [ BackboneMixin ],
+
     getInitialState: function() {
         return {
-            filterText: '',
-            elements: this.props.elements
+            filterText: ''
         };
-    },
-
-    componentDidMount: function() {
-        var comp = this;
-
-        this.props.elements.fetch({
-            success: function( coll ) {
-                if ( comp.isMounted() ) {
-                    comp.setState( {
-                        elements: coll
-                    } );
-                }
-            }
-        })
     },
 
     handleUserInput: function( filterText ) {
@@ -48,7 +36,7 @@ var InventoryComponent = React.createClass( {
         return (
             <div>
                 <h1>Your Inventory</h1>
-                <SearchComponent filterText={this.state.filterText} onUserInput={this.handleUserInput} />
+                <SearchComponent filterText={state.filterText} onUserInput={this.handleUserInput} />
                 <div><button onClick={this.addElement}>+ Add Lego Element</button></div>
                 <table>
                     <thead>
@@ -63,14 +51,14 @@ var InventoryComponent = React.createClass( {
                         </tr>
                     </thead>
                     <tbody>
-                        {this.state.add ? <AddElementComponent element={this.state.add} /> : null }
-                        {this.props.elements.map(function( element ) {
+                        {state.add ? <AddElementComponent model={state.add} /> : null }
+                        {this.props.collection.map(function( element ) {
                             var idReg = new RegExp( "^" + state.filterText, 'gi' );
                             var textReg = new RegExp( state.filterText, 'gi' );
                             if ( state.filterText === '' ) {
-                                return <ElementComponent element={element} />
+                                return <ElementComponent model={element} />
                             } else if ( idReg.test( element.get( 'element_id' ) ) || textReg.test( element.get( 'name' ) ) || idReg.test( element.get( 'design_id' ) ) ) {
-                                return <ElementComponent element={element} />
+                                return <ElementComponent model={element} />
                             }
                         })}
                     </tbody>
